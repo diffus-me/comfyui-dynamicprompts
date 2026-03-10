@@ -8,6 +8,8 @@ from pathlib import Path
 from dynamicprompts.sampling_context import SamplingContext
 from dynamicprompts.wildcards import WildcardManager
 
+import execution_context
+
 logger = logging.getLogger(__name__)
 
 
@@ -42,15 +44,10 @@ class DPAbstractSamplerNode(ABC):
         Find the wildcards folder.
         First look in the comfy_dynamicprompts folder, then in the custom_nodes folder, then in the Comfui base folder.
         """
-        from folder_paths import base_path, folder_names_and_paths
-
-        wildcard_path = Path(base_path) / "wildcards"
-
-        if wildcard_path.exists():
-            return wildcard_path
+        import folder_paths
 
         extension_path = (
-            Path(folder_names_and_paths["custom_nodes"][0][0])
+            Path(folder_paths.folder_names_and_paths["custom_nodes"][0][0])
             / "comfyui-dynamicprompts"
         )
         wildcard_path = extension_path / "wildcards"
